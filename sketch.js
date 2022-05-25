@@ -1,28 +1,12 @@
 let koks;
 let koksScale;
 let mousedown = false;
-
 let hfarbe = 0;
-
 let kmenge = 0;
 let kps = 0;
-let kpsc = 0;
-
+let kpsc = 0/* *(1.2*prestige) */;
 let kokserliste;
-
-//let prestige = 0
-/* 
-prestige button
-    if press pbutt(){
-        prestige
-        lt(all) = 0
-        kps*5(prestige/3)
-        return true
-    else if ()
-        return false
-    }
-*/
-
+let prestige = 0
 
 function setup(){
     createCanvas(1200, 800);
@@ -47,21 +31,25 @@ function nuttation(n){
 
 function preload(){
     koks = loadImage('assets/koks.png');
-    ksong = loadSound('assets/ksong.mp3');
+//  hmusik = loadSound('assets/ksong.mp3');
+//  schnief = loadSound('assets/schnief.mp3');
 }
 
 function draw(){
-  colorMode(HSB, 100);
+/*  if (!hmsik.isPlaying() && started){
+        hmusik.play()
+    } */
+    colorMode(HSB, 100);
     hfarbe += kps/75000;
     fill(hfarbe%100, 100, 100); 
-  colorMode(RGB, 255);
+    
+    colorMode(RGB, 255);
     strokeWeight(5);
     rect(800, 0, 400, 800);   
     rect(0, 0, 800, 800);
     imageMode(CENTER);
+
     koksScale = 1;
-    
-  
     if (mouseX > 100 && mouseX < 700 
      && mouseY > 370 && mouseY < 770){
         koksScale = 1.05;
@@ -71,41 +59,54 @@ function draw(){
     }    
 
     image(koks, 400, 570, 600*koksScale, 400*koksScale);
-
     fill(0);
     textSize(70);
     textAlign(CENTER);
     text(nuttation(Math.round(kmenge)) + ' Koks', 400, 100);
-
     if (frameCount%60 == 0){
         kps = kpsc;
         kpsc = 0;
     }
     textSize(30);
     text('pro sekunde: ' + nuttation(kps), 400, 150);
-   
-
     let extrakoks = 0
     for (let i = 0; i < kokserliste.length; i++){
         extrakoks += kokserliste[i].update(frameCount,800,i*100);
-
     }
     kpsc += extrakoks;
     kmenge += extrakoks;
 
+    strokeWeight(5);
+    rect(4, 740, 150, 60);
+
+    textSize(32)
+    colorMode(HSB, 100);
+    hfarbe += kps/75000;
+    fill(hfarbe%100, 100, 100); 
+    textAlign(LEFT);
+    text('Prestige?',5, 760);
+    textSize(20)
+    text('k: 10x 187', 10, 787);
+}
 
 
-
-
+function keyPressed(){
+    if (keyCode === ENTER){
+//      hmusik.play();
+    }
 }
 
 function mouseClicked(){
-    if (mouseX > 100 && mouseX < 700
-     && mouseY > 370 && mouseY < 770){
-         kmenge++;
-         kpsc++;
+    if (mouseX > 100 && mouseX < 700 
+        && mouseY > 370 && mouseY < 770){
+        kmenge++;
+        //kpsc++;
+//      schnief.play();     
     }
-    for (let i = 0; i < kokserliste.length; i++){
+
+
+
+     for (let i = 0; i < kokserliste.length; i++){
         if (mouseX > 800 && mouseX < 1200
         && mouseY > i*100 && mouseY < i*100+100) {
             if (kmenge >= kokserliste[i].getPreis()){
@@ -113,13 +114,33 @@ function mouseClicked(){
                 kokserliste[i].kaufen();
             }
         }
+    } 
+
+    if (kokserliste[0].menge() == 1) {
+        prestige++;
+        hfarbe = 0;
+        kmenge = 0;   
+        console.log(prestige)
+        /*     kps = 0*(1.2*prestige); */
     }
+
+
+/*     
+    if (kokserliste[7].menge() == 10) {
+        if (mouseX > 4 && mouseX < 150
+            && mouseY > 740 && mouseY < 60) {
+                prestige++;
+                hfarbe = 0;
+                kmenge = 0;
+            /*     kps = 0*(1.2*prestige); */
+        //}
+   // }
+
 }
 
 function mousePressed(){
     mousedown = true;
 }
-
 function mouseReleased(){
     mousedown = false;
 }

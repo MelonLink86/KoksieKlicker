@@ -5,7 +5,6 @@ class kokser {
         this.preis = uvp;
         this.menge = 0;
         this.name = name;
-
     }
 
     kaufen(){
@@ -22,9 +21,7 @@ class kokser {
     }
 
     update(frameCount,x,y){
-
-     //kredidkarte
-      colorMode(HSB, 100);
+       colorMode(HSB, 100);
        fill(y/8, 100, 80);
        colorMode(RGB, 255);
        rect(x,y,400,100);
@@ -37,17 +34,8 @@ class kokser {
        textSize(50);
        textAlign(RIGHT,CENTER);
        text(nuttation(this.menge), x+390, y+50);
-      
-
-
        if (frameCount%this.krate == 0){
             return this.kzuwachs*this.menge;
-        }   else return 0;
-
-
-
-     
-        
-        
+        }   else return 0;  
     }
 }
