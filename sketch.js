@@ -67,6 +67,7 @@ function draw(){
     koksinfos();
     kokserrechts();
     prestigeb();
+    console.log(panzahl)
 }
 
 function keyPressed(){
@@ -116,7 +117,7 @@ function prestigeb(){
     textSize(32)
     colorMode(HSB, 100);
     hfarbe += kps/75000;
-    fill(hfarbe%100, 100, 100); 
+    fill(hfarbe%100, 100, 100);
     textAlign(LEFT);
     text('Prestige?',5, 760);
     textSize(20);
@@ -157,7 +158,6 @@ function koksinfos(){
 }
 
 function kokserrechts(){
-
     for (let i = 0; i < kokserliste.length; i++){
         extrakoks += kokserliste[i].update(frameCount,800,i*100);
     }
@@ -174,7 +174,7 @@ function mouseReleased(){
 }
 
 function gefahrcalc(){
-    if(random(0,10) <= 1){
+    if(random(0,1000) <= 1){
         gefahrmult *= 1-((str(kmenge).length+random(0,3))/100)
         gefahrmult = constrain(gefahrmult, 0.1,1);
     }
@@ -195,7 +195,7 @@ function zugriff(){
     for (let i = 0; i < kokserliste.length; i++){
         kokserliste[i].menge=round(random(0,round(kokserliste[i].menge*0.75)));
     }
-    kmenge = kmenge-random(0,kmenge/2);
+    kmenge -= random(0,kmenge/2);
     haltstopsolipop =0;
     
 }
