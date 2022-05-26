@@ -5,6 +5,7 @@ class kokser {
         this.preis = uvp;
         this.menge = 0;
         this.name = name;
+        this.bpreis = uvp;
     }
 
     kaufen(){
