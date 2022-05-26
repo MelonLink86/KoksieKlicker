@@ -1,3 +1,17 @@
+/*
+Urheberrechtliche Information:
+Idee und Umsetzung: Oliver Prints
+Hilfestellung: Ari Otte, Miká Purwins
+
+Sehr geehrter Leser (wahrscheinlich Herr Bringmann), 
+obwohl Ari und ich (Miká) an diesem Projekt beteiligt sind, beschränkt sich diese Beteilung ausschließlich auf das geben von Ratschlägen und die vorläufige Implementierung schwierigerer Features zu Demonstrationszwecken. 
+Die Entwicklung von Konzepten und Lösungen, die Optimierung des Programms, das Lösen von eventuellen Problemen, etc. wird von Oliver übernommen. 
+Es handelt sich hier also keinesfalls um aus dem Internet gestohlenen Code. Es wäre wahrscheinlich auch schwer, ein so fragwürdiges Projekt irgendwo zu finden. 
+MfG, Miká
+
+P.S. Oliver weiß wirklich was er tut, da kann man ruhig schon mal eine Punktzahl im Einserbereich vergeben.
+*/
+
 let koks;
 let koksScale;
 let mousedown = false;
@@ -7,6 +21,9 @@ let kps = 0;
 let kpsc = 0;
 let kokserliste;
 let panzahl = 0;
+let gefahrmult = 1;
+let haltstopsolipop = 0;
+let extrakoks = 0;
 
 function setup(){
     createCanvas(1200, 800);
@@ -16,7 +33,7 @@ function setup(){
     kokserliste.push(new kokser(9, 60, 100,'Kokslöffel'));
     kokserliste.push(new kokser(21, 30, 1100,'Koksjunkie'));
     kokserliste.push(new kokser(234, 25, 23000,'Dealer'));
-    kokserliste.push(new kokser(974, 20, 150000,'Cracknutte'));
+    kokserliste.push(new kokser(974, 20, 150000,'gerollte 100$'));
     kokserliste.push(new kokser(2304, 15, 1700000,'Mies Dicke Line'));
     kokserliste.push(new kokser(3683, 10,  22000000,'LEEEAAAANN'));
     kokserliste.push(new kokser(4187, 4, 350000000,'187'));   
@@ -36,59 +53,20 @@ function preload(){
 }
 
 function draw(){
-/*  if (!hmsik.isPlaying() && started){
+    /*  if (!hmsik.isPlaying() && started){
         hmusik.play()
-    } */
-   // console.log(mouseX, mouseY)
-
-    colorMode(HSB, 100);
-    hfarbe += kps/75000;
-    fill(hfarbe%100, 100, 100); 
-    
-    colorMode(RGB, 255);
+    } */ 
+    gefahrcalc();
+    epilepsiehintergrund();
+    //ui box
     strokeWeight(5);
     rect(800, 0, 400, 800);   
     rect(0, 0, 800, 800);
-    imageMode(CENTER);
-
-    koksScale = 1;
-    if (mouseX > 100 && mouseX < 700 
-     && mouseY > 370 && mouseY < 770){
-        koksScale = 1.05;
-        if (mousedown){
-          koksScale = 0.95
-        }   
-    }    
-
-    image(koks, 400, 570, 600*koksScale, 400*koksScale);
-    fill(0);
-    textSize(70);
-    textAlign(CENTER);
-    text(nuttation(Math.round(kmenge)) + ' Koks', 400, 100);
-    if (frameCount%60 == 0){
-        kps = kpsc;
-        kpsc = 0;
-    }
-    textSize(30);
-    text('pro sekunde: ' + nuttation(kps*(panzahl+1)), 400, 150);
-    let extrakoks = 0
-    for (let i = 0; i < kokserliste.length; i++){
-        extrakoks += kokserliste[i].update(frameCount,800,i*100);
-    }
-    kpsc += extrakoks;
-    kmenge += (panzahl+1)*extrakoks;
-
-         //presige knopf mit text und viereck
-    strokeWeight(5);
-    rect(4, 740, 150, 60);
-    textSize(32)
-    colorMode(HSB, 100);
-    hfarbe += kps/75000;
-    fill(hfarbe%100, 100, 100); 
-    textAlign(LEFT);
-    text('Prestige?',5, 760);
-    textSize(20);
-    text('k: 10x 187', 10, 787); 
+    // console.log(mouseX, mouseY) 
+    koksbild();
+    koksinfos();
+    kokserrechts();
+    prestigeb();
 }
 
 function keyPressed(){
@@ -116,7 +94,7 @@ function mouseClicked(){
 //panzahl wenn maus über knof
    if (mouseX > 0 && mouseX < 150
      && mouseY > 740 && mouseY < 800){
-        if (kokserliste[0].menge >= 1) {
+        if (kokserliste[7].menge >= 10) {
            presitge();
         }
     } 
@@ -131,10 +109,93 @@ function presitge(){
     console.log(panzahl)
     kmenge = 0;
 }
+ 
+function prestigeb(){
+    strokeWeight(5);
+    rect(4, 740, 150, 60);
+    textSize(32)
+    colorMode(HSB, 100);
+    hfarbe += kps/75000;
+    fill(hfarbe%100, 100, 100); 
+    textAlign(LEFT);
+    text('Prestige?',5, 760);
+    textSize(20);
+    text('k: 10x 187', 10, 787); 
+}
+
+function epilepsiehintergrund(){
+    colorMode(HSB, 100);
+    hfarbe += kps/75000;
+    fill(hfarbe%100, 100, 100);
+}
+
+function koksbild(){
+    koksScale = 1;
+    if (mouseX > 100 && mouseX < 700 
+     && mouseY > 370 && mouseY < 770){
+        koksScale = 1.05;
+        if (mousedown){
+          koksScale = 0.95
+        }   
+    }    
+    imageMode(CENTER);
+    image(koks, 400, 570, 600*koksScale, 400*koksScale);
+}
+
+function koksinfos(){
+    fill(0);
+    textSize(70);
+    textAlign(CENTER);
+    text(nuttation(Math.round(kmenge)) + ' Koks', 400, 100);
+    if (frameCount%60 == 0){
+        kps = kpsc;
+        kpsc = 0;
+    }
+    textSize(30);
+    text('pro sekunde: ' + nuttation(kps*(panzahl+1)*gefahrmult), 400, 150);
+    text('Einkommensfakttor durch GEFAHR:' + nuttation(gefahrmult),400,200);
+}
+
+function kokserrechts(){
+
+    for (let i = 0; i < kokserliste.length; i++){
+        extrakoks += kokserliste[i].update(frameCount,800,i*100);
+    }
+    kpsc += extrakoks;
+    kmenge += (panzahl+1)*gefahrmult*extrakoks;
+}
 
 function mousePressed(){
     mousedown = true;
 }
+
 function mouseReleased(){
     mousedown = false;
+}
+
+function gefahrcalc(){
+    if(random(0,10) <= 1){
+        gefahrmult *= 1-((str(kmenge).length+random(0,3))/100)
+        gefahrmult = constrain(gefahrmult, 0.1,1);
+    }
+}
+    
+function angrif(){
+    if(random(0,100)<=haltstopsolipop){
+        zugriff();
+    }        
+    let nebistemp = gefahrmult
+    gefahrmult *=(1.5+(str(kmenge).length)/10)
+    
+    haltstopsolipop+=1*(1+gefahrmult-nebistemp);
+} 
+
+function zugriff(){
+    console.log("Die Polizei hat eine Razzia gegen dich ausgeführt.")
+    for (let i = 0; i < kokserliste.length; i++){
+        kokserliste[i].menge=round(random(0,round(kokserliste[i].menge*0.75)));
+    }
+    kmenge = kmenge-random(0,kmenge/2);
+    haltstopsolipop =0;
+    
 }
