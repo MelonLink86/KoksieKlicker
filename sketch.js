@@ -1,7 +1,7 @@
 /*
 Urheberrechtliche Information:
 Idee und Umsetzung: Oliver Prints
-Hilfestellung: Ari Otte, Miká Purwins
+Hilfestellung: Arianna Otte, Miká Purwins
 
 Sehr geehrter Leser (wahrscheinlich Herr Bringmann),
 obwohl Ari und ich (Miká) an diesem Projekt beteiligt sind, beschränkt sich
@@ -34,14 +34,14 @@ function setup(){
     createCanvas(1200, 800);
     frameRate(60);
     kokserliste = [];
-    kokserliste.push(new kokser(2, 60, 15,'Kreditkarte'));
-    kokserliste.push(new kokser(9, 60, 100,'Kokslöffel'));
-    kokserliste.push(new kokser(21, 30, 1100,'Koksjunkie'));
-    kokserliste.push(new kokser(234, 25, 23000,'Dealer'));
-    kokserliste.push(new kokser(974, 20, 150000,'gerollte 100$'));
-    kokserliste.push(new kokser(2304, 15, 1700000,'Mies Dicke Line'));
-    kokserliste.push(new kokser(3683, 10,  22000000,'LEEEAAAANN'));
-    kokserliste.push(new kokser(4187, 4, 350000000,'187'));   
+    kokserliste.push(new kokser(2, 60, 15,'Kreditkarte','assets/karte.png'));
+    kokserliste.push(new kokser(9, 60, 100,'Kokslöffel','assets/loeffel.jpg'));
+    kokserliste.push(new kokser(21, 30, 1100,'Koksjunkie','assets/junkie.jpg'));
+    kokserliste.push(new kokser(234, 25, 23000,'Dealer','assets/dealer.jpg'));
+    kokserliste.push(new kokser(974, 20, 150000,'gerollte 100$','assets/geld.jpg'));
+    kokserliste.push(new kokser(2304, 15, 1700000,'Mies Dicke Line','assets/line.png'));
+    kokserliste.push(new kokser(3683, 10,  22000000,'LEEEAAAANN','assets/lean.jpg'));
+    kokserliste.push(new kokser(4187, 4, 350000000,'187','assets/187.jpg'));   
     print(this.menge);
 }
 
@@ -53,14 +53,23 @@ function nuttation(n){
 
 function preload(){
     koks = loadImage('assets/koks.png');
-//  hmusik = loadSound('assets/hmusik.mp3');
+    hmusik = loadSound('assets/hmusik.wav');
+/*      Lyrics zur Background Musik
+        und du mussts einfach verstehn mann
+        sammel so viel schnee, mann
+        weißer als ein schneeman
+
+        koksi klicker
+
+        kripo wird dich schon nicht holen
+        komm, fang an zu koksen
+        komm groß raus, ganz oben
+
+        koksi klicker */
     schnief = loadSound('assets/schnief.mp3');
 }
 
 function draw(){
-    /*  if (!hmsik.isPlaying() && started){
-        hmusik.play()
-    } */ 
     gefahrcalc();
     epilepsiehintergrund();
     //ui box
@@ -72,20 +81,26 @@ function draw(){
     koksinfos();
     kokserrechts();
     prestigeb();
-    console.log(panzahl)
+    //console.log(panzahl)
 }
 
-function keyPressed(){
+/* function keyPressed(){
     if (keyCode === ENTER){
-//      hmusik.play();
+     hmusik.play();
     }
-}
+} */
 
 function mouseClicked(){
+    if (!hmusik.isPlaying()){
+        hmusik.setVolume(0.35);
+        hmusik.loop();
+        hmusik.play(); 
+    } 
     if (mouseX > 100 && mouseX < 700 
         && mouseY > 370 && mouseY < 770){
         kmenge++;
         kpsc++;
+        schnief.setVolume(0.5);
         schnief.play();        
     }
      for (let i = 0; i < kokserliste.length; i++){
@@ -117,6 +132,7 @@ function presitge(){
 }
  
 function prestigeb(){
+    fill(0);
     strokeWeight(5);
     rect(4, 740, 150, 60);
     textSize(32)
