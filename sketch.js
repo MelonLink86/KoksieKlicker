@@ -3,13 +3,18 @@ Urheberrechtliche Information:
 Idee und Umsetzung: Oliver Prints
 Hilfestellung: Ari Otte, Miká Purwins
 
-Sehr geehrter Leser (wahrscheinlich Herr Bringmann), 
-obwohl Ari und ich (Miká) an diesem Projekt beteiligt sind, beschränkt sich diese Beteilung ausschließlich auf das geben von Ratschlägen und die vorläufige Implementierung schwierigerer Features zu Demonstrationszwecken. 
-Die Entwicklung von Konzepten und Lösungen, die Optimierung des Programms, das Lösen von eventuellen Problemen, etc. wird von Oliver übernommen. 
-Es handelt sich hier also keinesfalls um aus dem Internet gestohlenen Code. Es wäre wahrscheinlich auch schwer, ein so fragwürdiges Projekt irgendwo zu finden. 
-MfG, Miká
+Sehr geehrter Leser (wahrscheinlich Herr Bringmann),
+obwohl Ari und ich (Miká) an diesem Projekt beteiligt sind, beschränkt sich
+diese Beteilung ausschließlich auf das geben von Ratschlägen und die vorläufige
+Implementierung schwierigerer Features zu Demonstrationszwecken.
+Die Entwicklung von Konzepten und Lösungen, die Optimierung des Programms, das
+Lösen von eventuellen Problemen, etc. wird von Oliver übernommen. Es handelt
+sich hier also keinesfalls um aus dem Internet gestohlenen Code. Es wäre
+wahrscheinlich auch schwer, ein so fragwürdiges Projekt irgendwo zu finden.
+MfG, Miká und Ari
 
-P.S. Oliver weiß wirklich was er tut, da kann man ruhig schon mal eine Punktzahl im Einserbereich vergeben.
+P.S. Oliver weiß wirklich was er tut, da kann man ruhig schon mal eine Punktzahl
+im Einserbereich vergeben.
 */
 
 let koks;
@@ -158,10 +163,11 @@ function koksinfos(){
 }
 
 function kokserrechts(){
+    extrakoks = 0;
     for (let i = 0; i < kokserliste.length; i++){
         extrakoks += kokserliste[i].update(frameCount,800,i*100);
     }
-    kpsc += extrakoks;
+    kpsc += (panzahl+1)*gefahrmult*extrakoks;
     kmenge += (panzahl+1)*gefahrmult*extrakoks;
 }
 
